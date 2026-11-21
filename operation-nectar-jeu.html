@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Opération confidentielle</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f1ede4;--ink:#161513;--red:#b32620;--inset:#e9e2d3;--cell:#ffffff;--muted:#555049;--green:#1f6b3a;
+  --mono:"Courier New",ui-monospace,Menlo,monospace;
+  --serif:Georgia,"Times New Roman",serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){color-scheme:dark;--paper:#1b1916;--ink:#f0eadb;--red:#e4574e;--inset:#26231e;--cell:#2f2b25;--muted:#a9a293;--green:#58b87d}
+}
+:root[data-theme="dark"]{color-scheme:dark;--paper:#1b1916;--ink:#f0eadb;--red:#e4574e;--inset:#26231e;--cell:#2f2b25;--muted:#a9a293;--green:#58b87d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.05rem;line-height:1.5;min-height:100vh}
+.wrap{max-width:460px;margin:0 auto;padding:22px 16px 34px}
+.card{border:3px solid var(--ink);padding:20px 18px 18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:3px solid var(--ink);padding-bottom:14px;font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.08em;color:var(--muted)}
+.stamp{border:3px solid var(--red);color:var(--red);padding:3px 9px;font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.1em;transform:rotate(-3deg);white-space:nowrap}
+.stamp.ok{border-color:var(--green);color:var(--green)}
+h1{font-family:var(--mono);font-size:1.55rem;line-height:1.2;text-align:center;margin:26px 0 6px;letter-spacing:.02em}
+.sub{font-family:var(--mono);color:var(--red);text-align:center;font-weight:700;letter-spacing:.14em;margin:0 0 20px;font-size:.9rem}
+p.txt{text-align:center;margin:0 0 20px}
+.btn{display:block;width:100%;border:0;background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:700;font-size:1.05rem;letter-spacing:.06em;padding:16px 12px;cursor:pointer}
+.btn:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.btn:active{transform:translateY(1px)}
+.map{display:grid;grid-template-columns:repeat(13,1fr);border:2px solid var(--ink);margin:6px 0 22px;font-family:var(--mono);font-weight:700;text-align:center}
+.map span{padding:6px 0;font-size:.9rem}
+.map .t{background:var(--ink);color:var(--paper)}
+.map .b{background:var(--cell);color:var(--red)}
+.defi{background:var(--inset);border:2px dashed var(--ink);padding:16px 12px 18px;text-align:center}
+.defi .lbl{font-family:var(--mono);font-weight:700;letter-spacing:.12em;margin:0 0 10px;font-size:.9rem}
+.word{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:700;letter-spacing:.2em;padding:6px 12px;margin-left:6px;font-size:1.15rem}
+.boxes{display:flex;justify-content:center;gap:8px;margin:14px 0 4px}
+.boxes input{width:46px;height:54px;border:0;border-bottom:4px solid var(--ink);background:var(--cell);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:1.6rem;text-align:center;text-transform:uppercase;border-radius:0;padding:0}
+.msg{min-height:1.6em;margin:12px 0 0;text-align:center;font-family:var(--mono);font-weight:700;color:var(--red);letter-spacing:.04em}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+.foot{margin-top:18px;border-top:2px solid var(--muted);padding-top:12px;text-align:center;font-family:var(--mono);color:var(--muted);font-size:.78rem;letter-spacing:.1em}
+.big{text-align:center;margin:30px 0 8px}
+.big .stamp{display:inline-block;font-size:1.5rem;padding:8px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Écran 1 : accueil -->
+  <section class="card" id="s1">
+    <div class="top"><span>DOSSIER N° 01</span><span class="stamp">TOP SECRET</span></div>
+    <h1>OPÉRATION<br>CONFIDENTIELLE</h1>
+    <p class="sub">— NECTAR —</p>
+    <p class="txt">Agent 044, un message codé vient d’être intercepté. L’Agence a besoin de vous.</p>
+    <button class="btn" id="accept" type="button">Accepter la mission</button>
+    <div class="foot">QUARTIER GÉNÉRAL • DÉTRUIRE APRÈS LECTURE</div>
+  </section>
+
+  <!-- Écran 2 : carte d'entraînement -->
+  <section class="card" id="s2" hidden>
+    <div class="top"><span>DOSSIER N° 01-ATBASH</span><span class="stamp">CONFIDENTIEL</span></div>
+    <h1>CARTE D’ENTRAÎNEMENT</h1>
+    <p class="sub">— ALPHABET INVERSÉ —</p>
+    <p class="txt">Chaque lettre du haut devient celle du bas (et inversement).</p>
+    <div class="map" id="map" aria-label="Table de correspondance des lettres"></div>
+    <div class="defi" id="defi">
+      <p class="lbl">★ MINI-DÉFI ★</p>
+      <div>Déchiffre ce mot : <span class="word">ZTVMG</span></div>
+      <div class="boxes" id="boxes"></div>
+    </div>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <button class="btn" id="check" type="button" style="margin-top:14px">Valider le code</button>
+    <div class="foot">BUREAU DU CHIFFREMENT • DÉTRUIRE APRÈS LECTURE</div>
+  </section>
+
+  <!-- Écran 3 : réussite -->
+  <section class="card" id="s3" hidden>
+    <div class="top"><span>DOSSIER N° 01-ATBASH</span><span class="stamp ok">CLASSÉ</span></div>
+    <div class="big"><span class="stamp ok">AFFAIRE VALIDÉE</span></div>
+    <h1>Bien joué, Agent 044</h1>
+    <p class="txt">Le code était bien <strong>AGENT</strong>. Gardez cette carte : elle vous servira le 4.</p>
+    <div class="foot">BUREAU DU CHIFFREMENT • MISSION ACCOMPLIE</div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var ANSWER="AGENT";
+  var $=function(id){return document.getElementById(id)};
+  var s1=$("s1"),s2=$("s2"),s3=$("s3"),boxes=$("boxes"),msg=$("msg"),defi=$("defi");
+
+  // Table de correspondance A-M / Z-N
+  var map=$("map"),top="ABCDEFGHIJKLM",bot="ZYXWVUTSRQPON";
+  for(var i=0;i<13;i++){var t=document.createElement("span");t.className="t";t.textContent=top[i];map.appendChild(t)}
+  for(var j=0;j<13;j++){var b=document.createElement("span");b.className="b";b.textContent=bot[j];map.appendChild(b)}
+
+  // Cases de saisie
+  var inputs=[];
+  for(var k=0;k<ANSWER.length;k++){
+    var inp=document.createElement("input");
+    inp.type="text";inp.maxLength=1;inp.autocomplete="off";inp.autocapitalize="characters";inp.spellcheck=false;
+    inp.setAttribute("aria-label","Lettre "+(k+1)+" sur "+ANSWER.length);
+    inp.dataset.i=k;boxes.appendChild(inp);inputs.push(inp);
+  }
+  function clean(v){return (v||"").toUpperCase().replace(/[^A-Z]/g,"")}
+  inputs.forEach(function(el,idx){
+    el.addEventListener("input",function(){
+      el.value=clean(el.value).slice(0,1);
+      msg.textContent="";
+      if(el.value&&idx<inputs.length-1)inputs[idx+1].focus();
+    });
+    el.addEventListener("keydown",function(e){
+      if(e.key==="Backspace"&&!el.value&&idx>0){inputs[idx-1].focus();inputs[idx-1].value=""}
+      else if(e.key==="Enter"){verify()}
+    });
+    el.addEventListener("paste",function(e){
+      e.preventDefault();
+      var txt=clean((e.clipboardData||window.clipboardData).getData("text"));
+      for(var n=0;n<txt.length&&idx+n<inputs.length;n++)inputs[idx+n].value=txt[n];
+      var last=Math.min(idx+txt.length,inputs.length-1);inputs[last].focus();
+    });
+  });
+
+  function verify(){
+    var val=inputs.map(function(x){return x.value}).join("");
+    if(val.length<ANSWER.length){msg.textContent="Entrez les "+ANSWER.length+" lettres.";return}
+    if(val===ANSWER){
+      s2.hidden=true;s3.hidden=false;window.scrollTo(0,0);
+    }else{
+      msg.textContent="✖ NON VALIDÉ — code incorrect";
+      defi.classList.remove("shake");void defi.offsetWidth;defi.classList.add("shake");
+    }
+  }
+
+  $("accept").addEventListener("click",function(){
+    s1.hidden=true;s2.hidden=false;window.scrollTo(0,0);inputs[0].focus();
+  });
+  $("check").addEventListener("click",verify);
+})();
+</script>
+</body>
+</html>
